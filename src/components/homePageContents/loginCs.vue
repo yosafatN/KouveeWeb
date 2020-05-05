@@ -41,7 +41,7 @@
 export default {
   data() {
     return {
-        images :require('./home.png'),
+      images: require('./home.png'),
       signUp: false,
       form: {
         name: '',
@@ -50,7 +50,7 @@ export default {
         address: '',
         phoneNumber: '',
       },
-      
+
       users: [],
       snackbar: false,
       color: null,

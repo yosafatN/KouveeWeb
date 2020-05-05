@@ -2,14 +2,7 @@
     <v-container>
         <v-card>
             <v-container grid-list-md mb-0>
-                <h2 class="text-md-center">Transaksi</h2>
-                <v-card flat>
-                    <v-col cols="12" sm="3">
-                        <v-btn icon color="green"  @click="sendKembali">
-                            <v-icon>mdi-arrow-left-bold-circle-outline</v-icon>
-                        </v-btn>
-                    </v-col>
-                </v-card>
+                <h2 class="text-md-center">Pembayaran</h2>
                 <v-layout row wrap style="margin:10px">
                     <v-flex xs6>
                         <v-btn depressed rounded style="text-transform: none !important;" color="blue accent-3"
@@ -37,9 +30,6 @@
                                 <td class="text-center">
                                     <v-btn icon color="indigo" light @click="edit(item)">
                                         <v-icon>mdi-pencil</v-icon>
-                                    </v-btn>
-                                    <v-btn icon color="error" light @click="setBatal(item)">
-                                        <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                 </td>
                             </tr>
@@ -137,7 +127,7 @@ export default {
             this.$http.get(uri).then(response => {
                 this.requests = response.data.message;
             })
-            var uri = this.$apiUrl + '/TransaksiLayanan/cs'
+            var uri = this.$apiUrl + '/TransaksiLayanan/cashier'
             this.$http.get(uri).then(response => {
                 this.requests = this.requests.concat(response.data.message);
             })

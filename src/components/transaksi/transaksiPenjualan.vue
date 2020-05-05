@@ -17,6 +17,7 @@
                         </v-col>
                     </v-row>
                 </v-card>
+
                 <v-layout row wrap style="margin:10px">
                     <v-flex xs6>
                         <v-btn depressed rounded style="text-transform: none !important;" color="blue accent-3"
@@ -157,8 +158,10 @@ export default {
             
         },
         fixURL(url) {
+            var link = "http://localhost/" + url.substring(22);
             if (url != null) {
-                return "http://localhost/" + url.substring(22);
+                console.log(link);
+                return link;
             }
             return null;
         },
@@ -173,7 +176,6 @@ export default {
     },
     mounted() {
         this.getProduk();
-        this.$session.set("id_transaksi", "30");
         this.id_transaksi = this.$session.get("id_transaksi");
     },
 }
