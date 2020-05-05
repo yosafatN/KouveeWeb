@@ -78,6 +78,10 @@ const routes = [
     component: PengelolaanLayout,
 },
 {
+    path: '/menu/transaksi',
+    component: () => import('../components/menu/menuTransaksi.vue'),
+},
+{
     path: '/transaksi',
     component: () => import('../components/transaksi/transaksi.vue'),
 },

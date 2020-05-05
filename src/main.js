@@ -8,7 +8,7 @@ import moment from 'moment'
 
 
 Vue.prototype.$http = Axios; 
-Vue.prototype.$apiUrl = 'http://localhost:8080/rest_api-kouvee-pet-shop/index.php'; 
+Vue.prototype.$apiUrl = 'http://localhost/rest_api-kouvee-pet-shop/index.php'; 
 
 Vue.config.productionTip = false 
 
