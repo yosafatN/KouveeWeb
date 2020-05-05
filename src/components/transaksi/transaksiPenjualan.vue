@@ -118,12 +118,15 @@ export default {
             this.request.append('jumlah', this.form.jumlah);
             this.request.append('pegawai', 'Ajeng9999');
             this.request.append('created_by', 'Ajeng9999');
-            var uri = this.$apiUrl + '/TransaksiLayanan';
+            var uri = this.$apiUrl + '/DetilTransaksiPenjualan';
             this.$http.post(uri, this.request).then(response => {              
                 this.dialog = false;
+                this.resetForm();
+                console.log(response.data.message);
             }).catch(error => {
                 console.log(error);
                 this.dialog = false;
+                this.resetForm();
             })
         },
 
@@ -154,11 +157,23 @@ export default {
             
         },
         fixURL(url) {
-            return "http://localhost/" + url.substring(22);
+            if (url != null) {
+                return "http://localhost/" + url.substring(22);
+            }
+            return null;
+        },
+
+        resetForm() {
+            this.form.link_gambar = '';
+            this.form.harga = '';
+            this.form.id_produk = 0;
+            this.form.nama= '';
+            this.form.jumlah =  0;
         }
     },
     mounted() {
         this.getProduk();
+        this.$session.set("id_transaksi", "30");
         this.id_transaksi = this.$session.get("id_transaksi");
     },
 }
