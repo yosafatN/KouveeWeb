@@ -98,13 +98,12 @@ const routes = [
     component: () => import('../components/transaksi/keranjangPenjualan.vue'),
 },
 {
-<<<<<<< HEAD
     path: '/transaksi/layanan/keranjang',
     component: () => import('../components/transaksi/keranjangLayanan.vue'),
-=======
+},
+{
     path: '/pembayaran',
     component: () => import('../components/pembayaran/pembayaran.vue'),
->>>>>>> 7a46a10de7ff0af2733ee8ad89cdb015b3ad0ab4
 },
 {
     path: '/pengadaan',
@@ -115,8 +114,37 @@ const routes = [
     component: AdminPelaporanLayout,
 },
 {
-    path: '/menuCS',
-    component: MenuCSLayout,
+    path: '/CS',
+    component: () => import('../components/menuCS/menuCS.vue'),
+},
+{
+    path: '/CS/transaksi',
+    component: () => import('../components/menuCS/transaksi/transaksi.vue'),
+},
+{
+    path: '/CS/transaksi/tambah',
+    component: () => import('../components/menuCS/transaksi/transaksi_tambah.vue'),
+},
+{
+    path: '/CS/transaksi/produk',
+    component: () => import('../components/menuCS/transaksi/transaksiPenjualan.vue'),
+},
+{
+    path: '/CS/transaksi/layanan',
+    component: () => import('../components/menuCS/transaksi/transaksiLayanan.vue'),
+},
+{
+    path: '/CS/transaksi/produk/keranjang',
+    component: () => import('../components/menuCS/transaksi/keranjangPenjualan.vue'),
+},
+{
+    path: '/CS/transaksi/layanan/keranjang',
+    component: () => import('../components/menuCS/transaksi/keranjangLayanan.vue'),
+},
+{ 
+    path: '/CS/member',            
+    name: 'csMemberController', 
+    component: () => import('../components/menuCS/csMember.vue'),
 },
 {
     path: '/csPengelolaan',
@@ -320,56 +348,10 @@ const routes = [
 
     children: [ 
         { 
-            path: '/dashboardCs/jenisHewan',            
-            name: 'cSjenisHewanController', 
-            component: loadCsPage('csJenisHewanController')
-        },
-        { 
-            path: '/dashboardCs/produk',            
-            name: 'csProdukController', 
-            component: loadCsPage('csProdukController')
-        },
-        { 
-            path: '/dashboardCs/ukuranHewan',            
-            name: 'csUkuranHewanController', 
-            component: loadCsPage('csUkuranHewanController')
-        },
-        { 
-            path: '/dashboardCs/layanan',            
-            name: 'csLayananController', 
-            component: loadCsPage('csLayananController')
-        },
-        { 
-            path: '/dashboardCs/member',            
+            path: '/CS/ml',            
             name: 'csMemberController', 
             component: loadCsPage('csMemberController')
-        },
-        { 
-            path: '/dashboardCs/hewan',            
-            name: 'csHewanController', 
-            component: loadCsPage('csHewanController')
-        },
-        { 
-            path: '/dashboardCs/csTransaksiController',            
-            name: 'csTransaksiController', 
-            component: loadCsPage('csTransaksiController')
-        },
-        { 
-            path: '/dashboardCs/csLayananReport',            
-            name: 'csLayananReport', 
-            component: loadCsPage('csLayananReport')
-        },
-        { 
-            path: '/dashboardCs/csLayananPelaporan',            
-            name: 'csLayananPelaporan', 
-            component: loadCsPage('csLayananPelaporan')
-        },
-        { 
-            path: '/dashboardCs/csProdukPelaporan',            
-            name: 'csProdukPelaporan', 
-            component: loadCsPage('csProdukPelaporan')
-        },
-
+        }
     ] 
 },
 {

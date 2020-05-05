@@ -121,7 +121,7 @@ export default {
         this.load = false;
         this.resetForm();
         this.$router.push({
-          path: "/menuCS"
+          path: "/CS"
         });
       } else {
         var url = this.$apiUrl + "/pegawai/login";
@@ -145,7 +145,7 @@ export default {
             this.$session.set('user_id', response.data.data);
 
             this.$router.push({
-              path: "/dashboardUser"
+              path: "/CS"
             });
           }
         }).catch(error => {
