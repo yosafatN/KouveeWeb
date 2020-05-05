@@ -124,9 +124,9 @@ export default {
           path: "/menuKasir"
         });
       } else {
-        var url = this.$apiUrl + "/user/login";
+        var url = this.$apiUrl + "/Pegawai/login";
         this.user = new FormData();
-        this.user.append("email", this.form.email);
+        this.user.append("username", this.form.email);
         this.user.append("password", this.form.password);
         this.$http.post(url, this.user).then(response => {
           this.errorType = response.data.error;
@@ -146,7 +146,7 @@ export default {
             this.$session.set('user_id', response.data.data);
 
             this.$router.push({
-              path: "/dashboardUser"
+              path: "/menuKasir"
             });
           }
         }).catch(error => {

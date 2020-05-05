@@ -30,6 +30,14 @@
             </v-container>
 
         </v-flex>
+        <v-snackbar 
+        v-model="snackbar"
+        :color="color" 
+        :multi-line="true" 
+        :timeout="6000" 
+        :top="y === 'top'"> {{ text }} 
+        <v-btn dark text @click="snackbar = false"> Close </v-btn> 
+        </v-snackbar> 
     </v-layout>
 </template>
 
@@ -42,6 +50,7 @@ export default {
                 no_telp: '',
                 is_member: false
             },
+            y: 'top'
 
         }
     },
@@ -63,11 +72,20 @@ export default {
             this.request.append('id_CS', 'Ajeng9999');
             this.request.append('created_by', 'Ajeng9999');
             var uri = this.$apiUrl + '/TransaksiLayanan';
-            this.$http.post(uri, this.request).then(response => {              
-                this.$session.set("id_transaksi", response.data.message);
-                this.$router.push({
-                    path: "/transaksi/produk"
-                });
+
+            this.$http.post(uri, this.request).then(response => {     
+                this.errorType = response.data.error;
+                if (this.errorType == true) {
+                        this.snackbar = true;
+                        this.text = response.data.message;
+                        this.color = 'red';
+                        this.load = false;
+                }else{
+                    this.$session.set("id_transaksi", response.data.message);
+                    this.$router.push({
+                        path: "/transaksi/produk"
+                    });
+                }
             }).catch(error => {
                 console.log(error);
             })
@@ -86,11 +104,19 @@ export default {
             this.request.append('id_CS', 'Ajeng9999');
             this.request.append('created_by', 'Ajeng9999');
             var uri = this.$apiUrl + '/TransaksiPenjualan';
-            this.$http.post(uri, this.request).then(response => {              
-                this.$session.set("id_transaksi", response.data.message);
-                this.$router.push({
-                    path: "/transaksi/produk"
-                });
+            this.$http.post(uri, this.request).then(response => {     
+                this.errorType = response.data.error;
+                if (this.errorType == true) {
+                        this.snackbar = true;
+                        this.text = response.data.message;
+                        this.color = 'red';
+                        this.load = false;
+                }else{
+                    this.$session.set("id_transaksi", response.data.message);
+                    this.$router.push({
+                        path: "/transaksi/produk"
+                    });
+                }
             }).catch(error => {
                 console.log(error);
             })

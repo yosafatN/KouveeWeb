@@ -154,7 +154,7 @@ export default {
             
         },
         fixURL(url) {
-            return "http://localhost/" + url.substring(22);
+            return "http://localhost:8080/" + url.substring(22);
         }
     },
     mounted() {
