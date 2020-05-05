@@ -24,7 +24,7 @@ export default {
     data: () => ({
       cards: [
         { title: 'Pengelolaan Data', src: 'https://png.pngtree.com/svg/20150911/yz_user_management_117401.png', flex: 3, link: '/pengelolaan'},
-        { title: 'Transaksi Test', src: 'https://static.thenounproject.com/png/417261-200.png', flex: 3, link: '/dashboardAdmin/adminTransaksiController'},
+        { title: 'Transaksi', src: 'https://static.thenounproject.com/png/417261-200.png', flex: 3, link: '/transaksi'},
         { title: 'Pelaporan', src: 'https://cdn2.iconfinder.com/data/icons/business-management-2-11/66/161-512.png', flex: 3, link: '/pelaporan' },
         { title: 'Pengadaan', src: 'https://cdn4.iconfinder.com/data/icons/reputation-management-2/66/99-512.png', flex: 3 , link: '/pengadaan'},
         

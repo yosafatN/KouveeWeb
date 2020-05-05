@@ -4,7 +4,6 @@ import Router from 'vue-router'
 const DashboardUserLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/dashboardUserLayout.vue')
 const HomePageLayout = () => import('../components/homePageLayout.vue')
 const DashboardAdminLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/dashboardAdminLayout.vue')
-const AdminTransaksiLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menu/transaksi.vue')
 const DashboardCsLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/dashboardCsLayout.vue')
 const DashboardKasirLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/dashboardKasirLayout.vue')
 const MenuLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menu/menu.vue')
@@ -80,7 +79,19 @@ const routes = [
 },
 {
     path: '/transaksi',
-    component: AdminTransaksiLayout,
+    component: () => import('../components/transaksi/transaksi.vue'),
+},
+{
+    path: '/transaksi/tambah',
+    component: () => import('../components/transaksi/transaksi_tambah.vue'),
+},
+{
+    path: '/transaksi/produk',
+    component: () => import('../components/transaksi/transaksiPenjualan.vue'),
+},
+{
+    path: '/transaksi/produk/keranjang',
+    component: () => import('../components/transaksi/keranjangPenjualan.vue'),
 },
 {
     path: '/pengadaan',
@@ -116,7 +127,6 @@ const routes = [
     path: '/kasirPelaporan',
     component: KasirPelaporanLayout,
 },
-
 {
     path: '/dashboardUser', 
     component: DashboardUserLayout, 
@@ -289,7 +299,6 @@ const routes = [
             name: 'adminPengelolaanTransaksi', 
             component: loadAdminPage('adminPengelolaanTransaksi')
         },
-
     ] 
 },
 {
