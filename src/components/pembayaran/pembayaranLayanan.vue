@@ -2,7 +2,7 @@
     <v-container grid-list-md mb-0>
         <v-card>
             <v-container grid-list-md mb-0>
-                <h2 class="text-md-center">Transaksi</h2>
+                <h2 class="text-md-center">Pembayaran Layanan</h2>
                 <v-card flat>
                     <v-row>
                         <v-col cols="6" sm="3">
@@ -11,31 +11,41 @@
                             </v-btn>
                         </v-col>
                         <v-col class="text-end">
-                            <v-btn icon color="blue" @click="keranjang()">
-                                <v-icon>mdi-cart-outline</v-icon>
+                            <v-btn icon color="green" @click="tambah()">
+                                <v-icon>mdi-currency-usd</v-icon>
                             </v-btn>
                         </v-col>
                     </v-row>
                 </v-card>
                 <v-layout row wrap style="margin:10px">
-                    <v-flex xs6>
-                    </v-flex>
                     <v-flex xs6 class="text-right">
                         <v-text-field v-model="keyword" append-icon="mdi-magnify" label="Cari" hide-details>
                         </v-text-field>
                     </v-flex>
                 </v-layout>
+
                 <v-row>
-                    <v-col v-for="(item, index) in produks" :key="index" cols="12" sm="6" md="4" lg="3">
+                    <v-col v-for="(item, index) in layanans" :key="index" cols="12" sm="6" md="4" lg="3">
                         <v-card class="mx-auto" max-width="400" @click="pilih(item)">
                             <v-img class="white--text align-end" height="200px"
                                 :src="fixURL(item.url_gambar)">
                             </v-img>
-                            <v-card-title class="subheading font-weight-bold">{{item.id_layanan}} {{item.id_ukuran_hewan}}</v-card-title>
-
+                            <v-card-title class="subheading font-weight-bold">{{item.nama_layanan}}</v-card-title>
+                            <v-list-item>
+                                <v-list-item-content>Nama Hewan:</v-list-item-content>
+                                <v-list-item-content class="align-end">{{ item.nama_hewan }}</v-list-item-content>
+                            </v-list-item>
                             <v-list-item>
                                 <v-list-item-content>Harga:</v-list-item-content>
                                 <v-list-item-content class="align-end">{{ rupiah(item.harga) }}</v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-content>Jumlah:</v-list-item-content>
+                                <v-list-item-content class="align-end">{{ item.jumlah }}</v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-content>Sub Total:</v-list-item-content>
+                                <v-list-item-content class="align-end">{{ rupiah(item.subtotal) }}</v-list-item-content>
                             </v-list-item>
                         </v-card>
                     </v-col>
@@ -80,7 +90,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="blue darken-1" text @click="dialog = false">Batal</v-btn>
-                        <v-btn color="blue darken-1" text @click="tambahDetail()">Tambah</v-btn>
+                        <v-btn color="blue darken-1" text @click="udahDetil()">Ubah</v-btn>
                     </v-card-actions>
                 </v-card-text>
             </v-card>
@@ -101,12 +111,11 @@ export default {
             dialog: false,
             keyword: '',
             request : new FormData,
-            produks: [],
-            id_transaksi: '',
-            menu: false,
-            errorType: false,
+            layanans: [],
             jenis_hewan: [],
             jenis_hewan_nama: [],
+            menu : false,
+            id_transaksi: '',
             form: {
                 nama_layanan: '',
                 harga_layanan: '',
@@ -115,40 +124,32 @@ export default {
                 nama_hewan : '',
                 id_jenis_hewan : '',
                 tanggal_lahir : '',
-                id_layanan: 0
+                id_layanan: 0,
+                id_detil: ''
             },
-            snackbar : false
+            hewan : '',
+            snackbar : false,
         }
     },
     methods: {
         getLayanan() {
-            var uri = this.$apiUrl + '/Layanan'
+            console.log(this.id_transaksi);
+            var uri = this.$apiUrl + '/DetilTransaksiLayanan/'+this.id_transaksi;
             this.$http.get(uri).then(response => {
-                this.produks = response.data.message;
-            })
-        },
-
-        getJenisHewan() {
-            var uri = this.$apiUrl + '/JenisHewan'
-            this.$http.get(uri).then(response => {
-                this.jenis_hewan = response.data.message;
-                this.jenis_hewan_nama = response.data.message.map(x => x.keterangan);
+                this.layanans = response.data.message;
             })
         },
 
         sendKembali() {
-            this.$router.push('/transaksi')
+            this.$router.push('/pembayaran')
         },
 
         tambah() {
-            this.$router.push('/transaksi/tambah')
+            this.$session.set("isTransaksiLayanan", "1");
+            this.$router.push('/pembayaran/bayar')
         },
 
-        keranjang() {
-            this.$router.push('/transaksi/layanan/keranjang')
-        },
-
-        tambahDetail() {
+        udahDetil() {
             for(var i = 0; i < this.jenis_hewan.length; i++) {
                 if (this.jenis_hewan.map(x => x.keterangan)[i] === this.form.id_jenis_hewan) {
                     this.form.id_jenis_hewan = this.jenis_hewan.map(x => x.id)[i];
@@ -163,7 +164,7 @@ export default {
             this.request.append('id_transaksi', this.id_transaksi);
             this.request.append('jumlah', '1');
             this.request.append('pegawai', 'Ajeng9999');
-            var uri = this.$apiUrl + '/DetilTransaksiLayanan';
+            var uri = this.$apiUrl + '/DetilTransaksiLayanan/' + this.form.id_detil;
             this.$http.post(uri, this.request).then(response => {              
                 this.dialog = false;
                 this.resetForm(); 
@@ -212,19 +213,21 @@ export default {
 
         pilih(item) {
             this.dialog = true;
-            this.form.link_gambar = item.url_gambar;
-            this.form.nama_layanan = item.id_ukuran_hewan + ' ' + item.id_layanan; 
-            this.form.harga = item.harga;
-            this.form.id_layanan = item.id;
             this.getJenisHewan();
+            this.getHewan(item.id_hewan);
+            this.form.link_gambar = item.url_gambar;
+            this.form.nama_layanan = item.nama_layanan; 
+            this.form.harga_layanan = item.harga;
+            this.form.jumlah = item.jumlah;
+            this.form.nama_hewan = item.nama_hewan;
+            this.form.id_jenis_hewan = this.hewan.id_jenis_hewan;
+            this.form.tanggal_lahir = this.hewan.tanggal_lahir;
+            this.form.id_layanan = item.id_layanan;
+            this.form.id_detil = item.id;
         },
         fixURL(url) {
-            if (url != null) {
-                return "http://localhost/" + url.substring(22);
-            }
-            return null;
+            return "http://localhost/" + url.substring(22);
         },
-
         resetForm() {
             this.form.nama_layanan = '';
             this.form.harga_layanan =  '';
@@ -237,8 +240,8 @@ export default {
         }
     },
     mounted() {
-        this.getLayanan();
         this.id_transaksi = this.$session.get("id_transaksi");
+        this.getLayanan();
     },
 }
 </script>

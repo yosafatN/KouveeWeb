@@ -98,13 +98,24 @@ const routes = [
     component: () => import('../components/transaksi/keranjangPenjualan.vue'),
 },
 {
-<<<<<<< HEAD
     path: '/transaksi/layanan/keranjang',
     component: () => import('../components/transaksi/keranjangLayanan.vue'),
-=======
+},
+{
     path: '/pembayaran',
     component: () => import('../components/pembayaran/pembayaran.vue'),
->>>>>>> 7a46a10de7ff0af2733ee8ad89cdb015b3ad0ab4
+},
+{
+    path: '/pembayaran/produk',
+    component: () => import('../components/pembayaran/pembayaranProduk.vue'),
+},
+{
+    path: '/pembayaran/layanan',
+    component: () => import('../components/pembayaran/pembayaranLayanan.vue'),
+},
+{
+    path: '/pembayaran/bayar',
+    component: () => import('../components/pembayaran/bayar.vue'),
 },
 {
     path: '/pengadaan',

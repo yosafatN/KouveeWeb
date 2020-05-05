@@ -3,15 +3,17 @@
         <v-card>
             <v-container grid-list-md mb-0>
                 <h2 class="text-md-center">Pembayaran</h2>
+                <v-card flat>
+                    <v-row>
+                        <v-col cols="6" sm="3">
+                            <v-btn icon color="green" @click="sendKembali()">
+                                <v-icon>mdi-arrow-left-bold-circle-outline</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                </v-card>
                 <v-layout row wrap style="margin:10px">
-                    <v-flex xs6>
-                        <v-btn depressed rounded style="text-transform: none !important;" color="blue accent-3"
-                            @click="tambah()">
-                            <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
-                            Tambah Data
-                        </v-btn>
-                    </v-flex>
-                    <v-flex xs6 class="text-right">
+                    <v-flex xs12 class="text-right">
                         <v-text-field v-model="keyword" 
                         append-icon="mdi-magnify" label="Cari" hide-details>
                         </v-text-field>
@@ -28,8 +30,8 @@
                                 <td>{{ item.status }}</td>
                                 <td>{{ rupiah(item.total) }}</td>
                                 <td class="text-center">
-                                    <v-btn icon color="indigo" light @click="edit(item)">
-                                        <v-icon>mdi-pencil</v-icon>
+                                    <v-btn icon color="green" light @click="edit(item)">
+                                        <v-icon>mdi-check-outline</v-icon>
                                     </v-btn>
                                 </td>
                             </tr>
@@ -137,44 +139,14 @@ export default {
             this.$router.push('/menu')
         },
 
-        tambah() {
-            this.$router.push('/transaksi/tambah')
-        },
-
         edit(item){
             this.$session.set("id_transaksi", item.id);
             if (item.isTransaksiLayanan == "0") {
-                this.$router.push('/transaksi/produk/keranjang');
+                this.$router.push('/pembayaran/produk/');
             }
             else if (item.isTransaksiLayanan == "1") {
-                this.$router.push('/transaksi/layanan/keranjang');
+                this.$router.push('/pembayaran/layanan/');
             }
-        },
-
-        setBatal(item) {
-            this.dialog = true;
-            this.id = item.id;
-            this.isTransaksiLayanan = item.isTransaksiLayanan;
-        },
-
-        batal() {
-            this.request.append('updated_by', 'Ajeng9999');
-            var uri = '';
-            if (this.isTransaksiLayanan == "0") {
-                uri = this.$apiUrl + '/TransaksiPenjualan/cancel/'+this.id;
-            }
-            else {
-                uri = this.$apiUrl + '/TransaksiLayanan/cancel/'+this.id;
-            }
-            
-            this.$http.post(uri, this.request).then(response => {              
-                this.getTransaksiLayanan();
-                console.log(response.data.message);
-                this.dialog = false;
-            }).catch(error => {
-                console.log(error);
-                this.dialog = false;
-            })
         },
 
         rupiah(harga) {
