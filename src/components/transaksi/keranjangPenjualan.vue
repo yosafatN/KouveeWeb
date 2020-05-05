@@ -11,7 +11,7 @@
                             </v-btn>
                         </v-col>
                         <v-col class="text-end">
-                            <v-btn icon color="red" @click="keranjang()">
+                            <v-btn icon color="red" @click="tambah()">
                                 <v-icon>mdi-plus-circle-outline</v-icon>
                             </v-btn>
                         </v-col>
@@ -62,7 +62,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="blue darken-1" text @click="dialog = false">Batal</v-btn>
-                        <v-btn color="blue darken-1" text @click="tambahDetail()">Tambah</v-btn>
+                        <v-btn color="blue darken-1" text @click="selesai()">Selesai</v-btn>
                     </v-card-actions>
                 </v-card-text>
             </v-card>
@@ -80,6 +80,7 @@ export default {
             produks: [],
             id_transaksi: '',
             form: {
+                id: '',
                 nama: '',
                 harga: '',
                 link_gambar: '',
@@ -90,7 +91,7 @@ export default {
     },
     methods: {
         getProduk() {
-            var uri = this.$apiUrl + '/DetilTransaksiPenjualan/'+this.id_transaksi;
+            var uri = this.$apiUrl + '/DetilTransaksiPenjualan/' + this.id_transaksi;
             this.$http.get(uri).then(response => {
                 this.produks = response.data.message;
             })
@@ -101,11 +102,29 @@ export default {
         },
 
         tambah() {
-            this.$router.push('/transaksi/tambah')
+            this.$router.push('/transaksi/produk')
         },
 
-        keranjang() {
-            this.$router.push('/transaksi/produk/keranjang')
+        selesai() {
+            if (this.form.jumlah == 0) {
+                this.batal();
+            }
+            else {
+                this.tambahDetail();
+            }
+        },
+
+        batal() {
+            this.request.append('updated_by', 'Ajeng9999');
+            var uri = this.$apiUrl + '/DetilTransaksiPenjualan/delete/'+this.form.id;
+            this.$http.post(uri, this.request).then(response => {              
+                this.getProduk();
+                console.log(response.data.message);
+                this.dialog = false;
+            }).catch(error => {
+                console.log(error);
+                this.dialog = false;
+            })
         },
 
         tambahDetail() {
@@ -114,9 +133,10 @@ export default {
             this.request.append('harga', this.form.harga);
             this.request.append('jumlah', this.form.jumlah);
             this.request.append('pegawai', 'Ajeng9999');
-            this.request.append('created_by', 'Ajeng9999');
-            var uri = this.$apiUrl + '/TransaksiLayanan';
+            var uri = this.$apiUrl + '/DetilTransaksiPenjualan/'+this.form.id;
             this.$http.post(uri, this.request).then(response => {              
+                this.getProduk();
+                console.log(response.data.message);
                 this.dialog = false;
             }).catch(error => {
                 console.log(error);
@@ -144,19 +164,25 @@ export default {
         },
 
         pilih(item) {
-            this.dialog = true;
             this.form.link_gambar = item.link_gambar;
             this.form.harga = item.harga;
-            this.form.id_produk = item.id;
-            
+            this.form.id_produk = item.id_produk;
+            this.form.jumlah = item.jumlah;
+            this.form.id = item.id;
+            this.dialog = true;
         },
         fixURL(url) {
-            return "http://localhost/" + url.substring(22);
+            var link = "http://localhost/" + url.substring(22);
+            if (url != null) {
+                return link;
+            }
+            return null;
         }
     },
     mounted() {
-        this.getProduk();
         this.id_transaksi = this.$session.get("id_transaksi");
+        console.log(this.id_transaksi);
+        this.getProduk();
     },
 }
 </script>

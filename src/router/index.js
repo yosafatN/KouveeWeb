@@ -94,6 +94,10 @@ const routes = [
     component: () => import('../components/transaksi/keranjangPenjualan.vue'),
 },
 {
+    path: '/pembayaran',
+    component: () => import('../components/pembayaran/pembayaran.vue'),
+},
+{
     path: '/pengadaan',
     component: AdminPengadaanLayout,
 },
