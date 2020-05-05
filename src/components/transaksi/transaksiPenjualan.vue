@@ -35,7 +35,7 @@
                     <v-col v-for="(item, index) in produks" :key="index" cols="12" sm="6" md="4" lg="3">
                         <v-card class="mx-auto" max-width="400" @click="pilih(item)">
                             <v-img class="white--text align-end" height="200px"
-                                :src="fixURL(item.link_gambar)">
+                                :src="item.link_gambar">
                             </v-img>
 
                             <v-card-title class="subheading font-weight-bold">{{item.nama}}</v-card-title>
@@ -56,7 +56,7 @@
                     <v-container>
                         <v-row>
                             <v-img class="white--text align-end" height="400px"
-                                :src="fixURL(form.link_gambar)">
+                                :src="form.link_gambar">
                             </v-img>
 
                             <v-text-field label="Jumlah" v-model="form.jumlah" required></v-text-field>

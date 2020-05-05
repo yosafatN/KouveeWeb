@@ -90,8 +90,16 @@ const routes = [
     component: () => import('../components/transaksi/transaksiPenjualan.vue'),
 },
 {
+    path: '/transaksi/layanan',
+    component: () => import('../components/transaksi/transaksiLayanan.vue'),
+},
+{
     path: '/transaksi/produk/keranjang',
     component: () => import('../components/transaksi/keranjangPenjualan.vue'),
+},
+{
+    path: '/transaksi/layanan/keranjang',
+    component: () => import('../components/transaksi/keranjangLayanan.vue'),
 },
 {
     path: '/pengadaan',

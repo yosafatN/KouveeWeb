@@ -83,7 +83,7 @@ export default {
                 }else{
                     this.$session.set("id_transaksi", response.data.message);
                     this.$router.push({
-                        path: "/transaksi/produk"
+                        path: "/transaksi/layanan"
                     });
                 }
             }).catch(error => {
