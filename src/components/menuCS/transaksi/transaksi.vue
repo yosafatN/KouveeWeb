@@ -35,11 +35,14 @@
                                 <td>{{ item.status }}</td>
                                 <td>{{ rupiah(item.total) }}</td>
                                 <td class="text-center">
-                                    <v-btn icon color="indigo" light @click="edit(item)">
-                                        <v-icon>mdi-pencil</v-icon>
-                                    </v-btn>
                                     <v-btn icon color="error" light @click="setBatal(item)">
                                         <v-icon>mdi-delete</v-icon>
+                                    </v-btn>
+                                    <v-btn v-if="item.isPayed != '1'" icon color="indigo" light @click="edit(item)">
+                                        <v-icon>mdi-pencil</v-icon>
+                                    </v-btn>
+                                    <v-btn v-if="item.status === 'belum selesai'" icon light color="error" @click="selesai(item)">
+                                        <v-icon>mdi-check-bold</v-icon>
                                     </v-btn>
                                 </td>
                             </tr>
@@ -128,7 +131,8 @@ export default {
             updatedId: '',
             imageUrl: null,
             id: '',
-            isTransaksiLayanan: ''
+            isTransaksiLayanan: '',
+            username : '',
         }
     },
     methods: {
@@ -166,9 +170,34 @@ export default {
             this.id = item.id;
             this.isTransaksiLayanan = item.isTransaksiLayanan;
         },
+        selesai(item){
+            this.id = item.id;
+            this.request.append('updated_by', this.username);
+            var uri = this.$apiUrl + '/TransaksiLayanan/done/'+this.id;
+            this.$http.post(uri, this.request).then(response => {              
+                this.getTransaksiLayanan();
+                this.dialog = false;
+                this.errorType = response.data.error;
+                if (this.errorType == true) {
+                        this.snackbar = true;
+                        this.text = response.data.message;
+                        this.color = 'red';
+                        this.load = false;
+                }else{
+                    this.dialog = false;
+                    this.snackbar = true;
+                    this.text = response.data.message;
+                    this.color = 'green';
+                    this.load = false;
+                }
+            }).catch(error => {
+                console.log(error);
+                this.dialog = false;
+            })
+        },
 
         batal() {
-            this.request.append('updated_by', 'Ajeng9999');
+            this.request.append('updated_by', this.username);
             var uri = '';
             if (this.isTransaksiLayanan == "0") {
                 uri = this.$apiUrl + '/TransaksiPenjualan/cancel/'+this.id;
@@ -207,6 +236,7 @@ export default {
         },
     },
     mounted() {
+        this.username = this.$session.get("pegawai");
         this.getTransaksiLayanan();
     },
 }

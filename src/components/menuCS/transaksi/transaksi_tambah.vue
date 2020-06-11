@@ -50,7 +50,8 @@ export default {
                 no_telp: '',
                 is_member: false
             },
-            y: 'top'
+            y: 'top',
+            pegawai : '',
 
         }
     },
@@ -69,8 +70,8 @@ export default {
             }
             this.request.append('no_telp', this.form.no_telp);
             this.request.append('is_member', cek);
-            this.request.append('id_CS', 'Ajeng9999');
-            this.request.append('created_by', 'Ajeng9999');
+            this.request.append('id_CS', this.pegawai);
+            this.request.append('created_by', this.pegawai);
             var uri = this.$apiUrl + '/TransaksiLayanan';
 
             this.$http.post(uri, this.request).then(response => {     
@@ -101,8 +102,8 @@ export default {
             }
             this.request.append('no_telp', this.form.no_telp);
             this.request.append('is_member', cek);
-            this.request.append('id_CS', 'Ajeng9999');
-            this.request.append('created_by', 'Ajeng9999');
+            this.request.append('id_CS', this.pegawai);
+            this.request.append('created_by', this.pegawai);
             var uri = this.$apiUrl + '/TransaksiPenjualan';
             this.$http.post(uri, this.request).then(response => {     
                 this.errorType = response.data.error;
@@ -123,7 +124,7 @@ export default {
         },
     },
     mounted() {
-        
+        this.pegawai = this.$session.get("pegawai");
     },
 }
 </script>

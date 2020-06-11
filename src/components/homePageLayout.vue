@@ -10,20 +10,22 @@
         <v-btn text router to="/">Home</v-btn>
       </v-toolbar-items>
       
+      
+
       <v-toolbar-items>
-        <v-btn text router to="/aboutUs">About Us</v-btn>
+        <v-btn text router to="/aboutUs">Tentang Kami</v-btn>
       </v-toolbar-items>
 
       <v-toolbar-items>
-        <v-btn text router to="/signDual">Admin</v-btn>
+        <v-btn text router to="/layanan">Layanan Kami</v-btn>
       </v-toolbar-items>
 
       <v-toolbar-items>
-        <v-btn text router to="/loginCs">Customer Service</v-btn>
+        <v-btn text router to="/produk">Produk Kami</v-btn>
       </v-toolbar-items>
 
       <v-toolbar-items>
-        <v-btn text router to="/loginKasir">Kasir</v-btn>
+        <v-btn text router to="/pegawai">Halaman Pegawai</v-btn>
       </v-toolbar-items>
 
     </v-app-bar>
