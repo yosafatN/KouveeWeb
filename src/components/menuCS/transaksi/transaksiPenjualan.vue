@@ -89,7 +89,8 @@ export default {
                 link_gambar: '',
                 jumlah: 0,
                 id_produk: 0
-            }
+            },
+            pegawai: '',
         }
     },
     methods: {
@@ -117,8 +118,8 @@ export default {
             this.request.append('id_transaksi', this.id_transaksi);
             this.request.append('harga', this.form.harga);
             this.request.append('jumlah', this.form.jumlah);
-            this.request.append('pegawai', 'Ajeng9999');
-            this.request.append('created_by', 'Ajeng9999');
+            this.request.append('pegawai', this.pegawai);
+            this.request.append('created_by', this.pegawai);
             var uri = this.$apiUrl + '/DetilTransaksiPenjualan';
             this.$http.post(uri, this.request).then(response => {              
                 this.dialog = false;
@@ -175,6 +176,7 @@ export default {
         }
     },
     mounted() {
+        this.pegawai = this.$session.get("pegawai");
         this.getProduk();
         this.id_transaksi = this.$session.get("id_transaksi");
     },

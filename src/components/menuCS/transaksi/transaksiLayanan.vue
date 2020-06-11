@@ -17,14 +17,6 @@
                         </v-col>
                     </v-row>
                 </v-card>
-                <v-layout row wrap style="margin:10px">
-                    <v-flex xs6>
-                    </v-flex>
-                    <v-flex xs6 class="text-right">
-                        <v-text-field v-model="keyword" append-icon="mdi-magnify" label="Cari" hide-details>
-                        </v-text-field>
-                    </v-flex>
-                </v-layout>
                 <v-row>
                     <v-col v-for="(item, index) in produks" :key="index" cols="12" sm="6" md="4" lg="3">
                         <v-card class="mx-auto" max-width="400" @click="pilih(item)">
@@ -117,7 +109,8 @@ export default {
                 tanggal_lahir : '',
                 id_layanan: 0
             },
-            snackbar : false
+            snackbar : false,
+            pegawai: '',
         }
     },
     methods: {
@@ -162,7 +155,7 @@ export default {
             this.request.append('tanggal_lahir', this.form.tanggal_lahir);
             this.request.append('id_transaksi', this.id_transaksi);
             this.request.append('jumlah', '1');
-            this.request.append('pegawai', 'Ajeng9999');
+            this.request.append('pegawai', this.pegawai);
             var uri = this.$apiUrl + '/DetilTransaksiLayanan';
             this.$http.post(uri, this.request).then(response => {              
                 this.dialog = false;
@@ -237,6 +230,7 @@ export default {
         }
     },
     mounted() {
+        this.pegawai = this.$session.get("pegawai");
         this.getLayanan();
         this.id_transaksi = this.$session.get("id_transaksi");
     },

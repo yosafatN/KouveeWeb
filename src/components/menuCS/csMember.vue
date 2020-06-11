@@ -19,11 +19,6 @@
                             <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
                             Tambah Data
                         </v-btn>
-                        <v-btn depressed rounded style="text-transform: none !important;" color="red accent-3"
-                            @click="pdf()" class="ml-5">
-                            <v-icon size="18" class="mr-2">mdi-file-pdf</v-icon>
-                            Convert to PDF
-                        </v-btn>
                     </v-flex>
                     <v-flex xs6 class="text-right">
                         <v-text-field v-model="keyword" append-icon="mdi-magnify" label="Cari" hide-details>
@@ -157,7 +152,8 @@ export default {
             typeInput: 'new',        
             errors : '',         
             updatedId : '', 
-            imageUrl : null,          
+            imageUrl : null, 
+            pegawai : '',         
         }     
     },
     
@@ -186,7 +182,7 @@ export default {
             this.request.append('no_telp', this.form.no_telp); 
             this.request.append('tanggal', this.form.tanggal); 
             this.request.append('alamat', this.form.alamat); 
-            this.request.append('created_by', 'Rafael66');               
+            this.request.append('created_by', this.pegawai);               
             var uri =this.$apiUrl + '/Member'             
             this.load = true             
             this.$http.post(uri,this.request).then(response =>{               
@@ -213,7 +209,7 @@ export default {
             this.request.append('no_telp', this.form.no_telp); 
             this.request.append('tanggal', this.form.tanggal); 
             this.request.append('alamat', this.form.alamat);
-            this.request.append('updated_by', 'Rafael66');
+            this.request.append('updated_by', this.pegawai);
             var uri = this.$apiUrl + '/Member/' + this.updatedId;             
             this.load = true             
             this.$http.post(uri,this.request).then(response =>{ 
@@ -249,7 +245,7 @@ export default {
 
         deleteData(deleteId){ //mengahapus data
             var uri = this.$apiUrl + '/Member/delete/' + deleteId; //data dihapus berdasarkan id 
-            this.request.append('updated_by', 'Rafael66');
+            this.request.append('updated_by', this.pegawai);
             this.$http.post(uri,this.request).then(response =>{                 
                 this.snackbar = true;                 
                 this.text = response.data.message;                 
@@ -296,9 +292,9 @@ export default {
             window.open(uri);
         }
     },     
-    mounted(){         
+    mounted(){     
+        this.pegawai = this.$session.get("pegawai");
         this.getData();     
-
         }, 
     } 
 </script> 

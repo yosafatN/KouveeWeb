@@ -61,6 +61,7 @@ export default {
       errorType: false,
       errors: '',
       updatedId: '',
+      pegawai: [],
       x: null,
       y: 'top'
     }
@@ -68,16 +69,6 @@ export default {
 
   methods: {
     getData() {
-      if (this.$session.exists('user_id')) {
-        this.$router.push({
-          path: "/dashboardUser"
-        });
-      } else {
-        var uri = this.$apiUrl + '/user'
-        this.$http.get(uri).then(response => {
-          this.users = response.data.message
-        })
-      }
     },
 
     sendData() {
@@ -136,17 +127,24 @@ export default {
             this.color = 'red';
             this.load = false;
           } else {
-            this.snackbar = true;
-            this.color = 'green';
-            this.text = response.data.message;
-            this.load = false;
             this.resetForm();
-
-            this.$session.set('user_id', response.data.data);
-
-            this.$router.push({
-              path: "/CS"
-            });
+            this.pegawai = response.data.message;
+            console.log(this.pegawai.id_role_pegawai);
+            if(this.pegawai.id_role_pegawai == 'Customer Service'){
+                this.$session.set('pegawai', this.pegawai.username);
+                this.$router.push({
+                  path: "/CS"
+                });
+                this.snackbar = true;
+                this.color = 'green';
+                this.text = 'Succses';
+                this.load = false;
+            }else{
+                this.snackbar = true;
+                this.text = 'Maaf Anda Tidak Bisa Mengakses Menu Ini';
+                this.color = 'red';
+                this.load = false;
+            }
           }
         }).catch(error => {
           this.errors = error;

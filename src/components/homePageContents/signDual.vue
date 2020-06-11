@@ -60,7 +60,7 @@ export default {
         address: '',
         phoneNumber: '',
       },
-      users: [],
+      response: [],
       snackbar: false,
       color: null,
       text: '',
@@ -76,18 +76,6 @@ export default {
   },
 
   methods: {
-    getData() {
-      if (this.$session.exists('user_id')) {
-        this.$router.push({
-          path: "/dashboardUser"
-        });
-      } else {
-        var uri = this.$apiUrl + '/user'
-        this.$http.get(uri).then(response => {
-          this.users = response.data.message
-        })
-      }
-    },
 
     sendData() {
       this.user.append('name', this.form.name);
@@ -147,15 +135,21 @@ export default {
           } else {
             this.snackbar = true;
             this.color = 'green';
-            this.text = response.data.message;
+            this.text = 'Succses';
             this.load = false;
             this.resetForm();
-
-            this.$session.set('user_id', response.data.data);
-
-            this.$router.push({
-              path: "/menu"
-            });
+            this.response = response.data.message;
+            if(this.response.id_role_pegawai == 'Owner'){
+                this.$session.set('pegawai', this.response.username);
+                this.$router.push({
+                  path: "/Admin"
+                });
+            }else{
+                this.snackbar = true;
+                this.text = 'Maaf Anda Tidak Bisa Mengakses Menu Ini';
+                this.color = 'red';
+                this.load = false;
+            }
           }
         }).catch(error => {
           this.errors = error;
@@ -179,7 +173,6 @@ export default {
   },
 
   mounted() {
-    this.getData();
   },
 }
 

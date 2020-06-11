@@ -30,7 +30,7 @@
     methods: {
         cekSession() {
             if (this.$session.exists('user_id')) {
-                this.$router.push({ path: "/dashboardUser" });  
+                this.$router.push({ path: "/" });  
             }
         }
     },

@@ -28,7 +28,7 @@
                     <v-col v-for="(item, index) in produks" :key="index" cols="12" sm="6" md="4" lg="3">
                         <v-card class="mx-auto" max-width="400" @click="pilih(item)">
                             <v-img class="white--text align-end" height="200px"
-                                :src="fixURL(item.link_gambar)">
+                                :src="item.link_gambar">
                             </v-img>
 
                             <v-card-title class="subheading font-weight-bold">{{item.nama}}</v-card-title>
@@ -46,25 +46,27 @@
                 </v-row>
             </v-container>
         </v-card>
-
         <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card>
+                <v-card-title class="subheading font-weight-bold" >
+                    <v-col cols="10">
+                        {{form.nama}}
+                    </v-col>
+                    <v-col cols="2">
+                         <v-btn color="blue" icon @click="dialog = false">
+                            <v-icon>mdi-close-circle-outline</v-icon>
+                        </v-btn> 
+                    </v-col>
+                </v-card-title>
+                <v-img v-if="form.link_gambar !== null" class="white--text align-end" height="400px" :src="form.link_gambar"></v-img>
                 <v-card-text>
-                    <v-container>
-                        <v-row>
-                            <v-img class="white--text align-end" height="400px"
-                                :src="fixURL(form.link_gambar)">
-                            </v-img>
-
-                            <v-text-field label="Jumlah" v-model="form.jumlah" required></v-text-field>
-                        </v-row>
-                    </v-container>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="dialog = false">Batal</v-btn>
-                        <v-btn color="blue darken-1" text @click="selesai()">Selesai</v-btn>
-                    </v-card-actions>
+                        <v-text-field label="Jumlah" v-model="form.jumlah" required></v-text-field>
                 </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red darken-1" text @click="batal()">Batal</v-btn>
+                    <v-btn color="green" text @click="selesai()">Selesai</v-btn>
+                </v-card-actions>
             </v-card>
         </v-dialog>
     </v-container>
@@ -86,7 +88,8 @@ export default {
                 link_gambar: '',
                 jumlah: 0,
                 id_produk: 0
-            }
+            },
+            pegawai: '',
         }
     },
     methods: {
@@ -115,7 +118,7 @@ export default {
         },
 
         batal() {
-            this.request.append('updated_by', 'Ajeng9999');
+            this.request.append('updated_by', this.pegawai);
             var uri = this.$apiUrl + '/DetilTransaksiPenjualan/delete/'+this.form.id;
             this.$http.post(uri, this.request).then(response => {              
                 this.getProduk();
@@ -132,7 +135,7 @@ export default {
             this.request.append('id_transaksi', this.id_transaksi);
             this.request.append('harga', this.form.harga);
             this.request.append('jumlah', this.form.jumlah);
-            this.request.append('pegawai', 'Ajeng9999');
+            this.request.append('pegawai', this.pegawai);
             var uri = this.$apiUrl + '/DetilTransaksiPenjualan/'+this.form.id;
             this.$http.post(uri, this.request).then(response => {              
                 this.getProduk();
@@ -164,6 +167,7 @@ export default {
         },
 
         pilih(item) {
+            this.form.nama = item.nama;
             this.form.link_gambar = item.link_gambar;
             this.form.harga = item.harga;
             this.form.id_produk = item.id_produk;
@@ -180,8 +184,8 @@ export default {
         }
     },
     mounted() {
+        this.pegawai = this.$session.get("pegawai");
         this.id_transaksi = this.$session.get("id_transaksi");
-        console.log(this.id_transaksi);
         this.getProduk();
     },
 }

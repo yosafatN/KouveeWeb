@@ -1,15 +1,19 @@
 <template>
     <v-card class="mx-auto" max-width="1980">
-        <v-toolbar color="#f37900" dark>
-            <v-toolbar-title>MAIN MENU CS</v-toolbar-title>
-        </v-toolbar>
         <v-container fluid>
             <v-row dense>
+                <v-col cols="3"></v-col>
                 <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
                     <v-card>
-                        <v-img :src="card.src" class="white--text align-end"
-                             height="200px" width="200px">
-                        </v-img>
+                        <v-card-text>
+                            <v-row>
+                                <v-col cols="1"></v-col>
+                                <v-col cols="10">
+                                    <v-img :src="card.src" class="white--text align-end"></v-img>
+                                </v-col>
+                                <v-col cols="1"></v-col>
+                            </v-row>
+                        </v-card-text>
                         <v-card-actions>
                             <v-btn color="#f37900" dark @click="action(card.link)">{{card.title}}</v-btn>
                         </v-card-actions>

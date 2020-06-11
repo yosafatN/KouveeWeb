@@ -22,14 +22,8 @@ export default {
     },
 
     methods: {
-        cekSession() {
-            if (this.$session.exists('user_id')) {
-                this.$router.push({ path: "/dashboardUser" });  
-            }
-        }
     },
     mounted(){ 
-        this.cekSession()
     }, 
 }
 </script>

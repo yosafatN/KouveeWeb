@@ -68,16 +68,6 @@ export default {
 
   methods: {
     getData() {
-      if (this.$session.exists('user_id')) {
-        this.$router.push({
-          path: "/dashboardUser"
-        });
-      } else {
-        var uri = this.$apiUrl + '/user'
-        this.$http.get(uri).then(response => {
-          this.users = response.data.message
-        })
-      }
     },
 
     sendData() {
@@ -114,17 +104,17 @@ export default {
     },
 
     signIn() {
-      if (this.form.email == "KelvinAja" && this.form.password == "admin12345") {
+      if (this.form.email == "Rafael66" && this.form.password == "admin12345") {
         this.snackbar = true;
         this.color = 'green';
         this.text = 'Welcome!';
         this.load = false;
         this.resetForm();
         this.$router.push({
-          path: "/menuKasir"
+          path: "/CS"
         });
       } else {
-        var url = this.$apiUrl + "/Pegawai/login";
+        var url = this.$apiUrl + "/pegawai/login";
         this.user = new FormData();
         this.user.append("username", this.form.email);
         this.user.append("password", this.form.password);
@@ -135,19 +125,25 @@ export default {
             this.text = response.data.message;
             this.color = 'red';
             this.load = false;
-            this.resetForm();
           } else {
-            this.snackbar = true;
-            this.color = 'green';
-            this.text = response.data.message;
-            this.load = false;
             this.resetForm();
-
-            this.$session.set('user_id', response.data.data);
-
-            this.$router.push({
-              path: "/menuKasir"
-            });
+            this.pegawai = response.data.message;
+            console.log(this.pegawai.id_role_pegawai);
+            if(this.pegawai.id_role_pegawai == 'Cashier'){
+                this.$session.set('pegawai', this.pegawai.username);
+                this.$router.push({
+                  path: "/Cashier"
+                });
+                this.snackbar = true;
+                this.color = 'green';
+                this.text = 'Succses';
+                this.load = false;
+            }else{
+                this.snackbar = true;
+                this.text = 'Maaf Anda Tidak Bisa Mengakses Menu Ini';
+                this.color = 'red';
+                this.load = false;
+            }
           }
         }).catch(error => {
           this.errors = error;

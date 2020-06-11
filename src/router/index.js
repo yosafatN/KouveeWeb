@@ -1,40 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const DashboardUserLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/dashboardUserLayout.vue')
+const HomePagePegawaiLayout = () => import('../components/homePagePegawaiLayout.vue')
 const HomePageLayout = () => import('../components/homePageLayout.vue')
-const DashboardAdminLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/dashboardAdminLayout.vue')
-const DashboardCsLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/dashboardCsLayout.vue')
-const DashboardKasirLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/dashboardKasirLayout.vue')
-const MenuLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menu/menu.vue')
-const MenuCSLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menuCS/menuCS.vue')
-const MenuKasirLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menuKasir/menuKasir.vue')
-const PengelolaanLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menu/pengelolaan.vue')
-const CsPengelolaanLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menuCS/csPengelolaan.vue')
-const CsPelaporanLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menuCS/csPelaporan.vue')
-const KasirPengelolaanLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menuKasir/kasirPengelolaan.vue')
-const KasirPelaporanLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menuKasir/kasirPelaporan.vue')
-const AdminPengadaanLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menu/pengadaan.vue')
-const AdminPelaporanLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menu/pelaporan.vue')
-
-function loadView(view) {
-    return () => import( /* webpackChunkName: "view[request]" */ `../components/dashboardUserContents/${view}.vue`)
-}
-
+const DashboardAdminLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/dashboardAdminLayout.vue')
+const DashboardCsLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menuCS/dashboardCS.vue')
+const DashboardKasirLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/menuKasir/dashboardCashier.vue')
+const MenuLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/menu.vue')
+const PengelolaanLayout = () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/pengelolaan.vue')
 function loadHomePage(view){
     return () => import(`../components/homePageContents/${view}.vue`)
 }
-
 function loadAdminPage(view){
-    return () => import(`../components/dashboardAdminContents/${view}.vue`)
-}
-
-function loadCsPage(view){
-    return () => import(`../components/dashboardCsContents/${view}.vue`)
-}
-
-function loadKasirPage(view){
-    return () => import(`../components/dashboardKasirContents/${view}.vue`)
+    return () => import(`../components/Admin/${view}.vue`)
 }
 
 const routes = [
@@ -44,382 +22,306 @@ const routes = [
     children: [
         {
             path: '/',
-            name: 'home',
-            component: loadHomePage('home')
-        }, 
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/customer/homeCustomer.vue'),
+        },
         {
             path: '/aboutUs',
-            name: 'aboutUs',
-            component: loadHomePage('aboutUsLayout')
-        }, 
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/customer/tentangKami.vue'),
+        },
         {
-            path: '/signDual',
+            path: '/layanan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/customer/layanan.vue'),
+        },
+        {
+            path: '/produk',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/customer/produk.vue'),
+        }
+    ]
+},
+{
+    path: '/pegawai',
+    component: HomePagePegawaiLayout,
+    children: [
+        {
+            path: '/pegawai',
+            name: 'home',
+            component: loadHomePage('home')
+        },
+        {
+            path: '/pegawai/signDual',
             name: 'signDual',
             component: loadHomePage('signDual')
         },
         {
-            path: '/loginCs',
+            path: '/pegawai/loginCs',
             name: 'loginCs',
             component: loadHomePage('loginCs')
         },
         {
-            path: '/loginKasir',
+            path: '/pegawai/loginKasir',
             name: 'loginKasir',
             component: loadHomePage('loginKasir')
         }
     ]
 },
 {
-    path: '/menu',
-    component: MenuLayout,
-},
-{
-    path: '/pengelolaan',
-    component: PengelolaanLayout,
-},
-{
-    path: '/menu/transaksi',
-    component: () => import('../components/menu/menuTransaksi.vue'),
-},
-{
-    path: '/transaksi',
-    component: () => import('../components/transaksi/transaksi.vue'),
-},
-{
-    path: '/transaksi/tambah',
-    component: () => import('../components/transaksi/transaksi_tambah.vue'),
-},
-{
-    path: '/transaksi/produk',
-    component: () => import('../components/transaksi/transaksiPenjualan.vue'),
-},
-{
-    path: '/transaksi/layanan',
-    component: () => import('../components/transaksi/transaksiLayanan.vue'),
-},
-{
-    path: '/transaksi/produk/keranjang',
-    component: () => import('../components/transaksi/keranjangPenjualan.vue'),
-},
-{
-    path: '/transaksi/layanan/keranjang',
-    component: () => import('../components/transaksi/keranjangLayanan.vue'),
-},
-{
-    path: '/pembayaran',
-    component: () => import('../components/pembayaran/pembayaran.vue'),
-},
-{
-    path: '/pembayaran/produk',
-    component: () => import('../components/pembayaran/pembayaranProduk.vue'),
-},
-{
-    path: '/pembayaran/layanan',
-    component: () => import('../components/pembayaran/pembayaranLayanan.vue'),
-},
-{
-    path: '/pembayaran/bayar',
-    component: () => import('../components/pembayaran/bayar.vue'),
-},
-{
-    path: '/pengadaan',
-    component: AdminPengadaanLayout,
-},
-{
-    path: '/pelaporan',
-    component: AdminPelaporanLayout,
-},
-{
-    path: '/CS',
-    component: () => import('../components/menuCS/menuCS.vue'),
-},
-{
-    path: '/CS/transaksi',
-    component: () => import('../components/menuCS/transaksi/transaksi.vue'),
-},
-{
-    path: '/CS/transaksi/tambah',
-    component: () => import('../components/menuCS/transaksi/transaksi_tambah.vue'),
-},
-{
-    path: '/CS/transaksi/produk',
-    component: () => import('../components/menuCS/transaksi/transaksiPenjualan.vue'),
-},
-{
-    path: '/CS/transaksi/layanan',
-    component: () => import('../components/menuCS/transaksi/transaksiLayanan.vue'),
-},
-{
-    path: '/CS/transaksi/produk/keranjang',
-    component: () => import('../components/menuCS/transaksi/keranjangPenjualan.vue'),
-},
-{
-    path: '/CS/transaksi/layanan/keranjang',
-    component: () => import('../components/menuCS/transaksi/keranjangLayanan.vue'),
-},
-{ 
-    path: '/CS/member',            
-    name: 'csMemberController', 
-    component: () => import('../components/menuCS/csMember.vue'),
-},
-{
-    path: '/csPengelolaan',
-    component: CsPengelolaanLayout,
-},
-{
-    path: '/csPelaporan',
-    component: CsPelaporanLayout,
-},
-
-{
-    path: '/menuKasir',
-    component: MenuKasirLayout,
-},
-
-{
-    path: '/kasirPengelolaan',
-    component: KasirPengelolaanLayout,
-},
-{
-    path: '/kasirPelaporan',
-    component: KasirPelaporanLayout,
-},
-{
-    path: '/dashboardUser', 
-    component: DashboardUserLayout, 
-    children: [ 
-        { 
-            path: '/dashboardUser',            
-            name: 'borrowBookController', 
-            component: loadView('borrowBookController') 
-        },
-        { 
-            path: '/dashboardUser/borrowList',            
-            name: 'borrowListController', 
-            component: loadView('borrowListController') 
-        },
-        { 
-            path: '/dashboardUser/requestBook',            
-            name: 'requestBookController', 
-            component: loadView('requestBookController') 
-        },
-        { 
-            path: '/dashboardUser/bookReview',            
-            name: 'reviewController', 
-            component: loadView('reviewController') 
-        },
-        { 
-            path: '/dashboardUser/userAccount',            
-            name: 'accountController', 
-            component: loadView('accountController') 
-        },
-        { 
-            path: '/dashboardUser/userAccount/userAccountEdit',            
-            name: 'accountEditController', 
-            component: loadView('accountEditController') 
-        },
-
-    ] 
-}, 
-{
-    path: '/dashboardAdmin', 
+    path: '/Admin',
     component: DashboardAdminLayout, 
-    children: [ 
+    children: [
+        {
+            path: '/Admin/menu',
+            component: MenuLayout,
+        },
+        {
+            path: '/Admin/pengelolaan',
+            component: PengelolaanLayout,
+        },
+        {
+            path: '/Admin/Transaksi',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/menuTransaksi.vue'),
+        },
+        {
+            path: '/Admin/transaksi/CS',
+            component: () => import('../components/Admin/transaksi.vue'),
+        },
+        {
+            path: '/Admin/transaksi/tambah',
+            component: () => import('../components/Admin/transaksi_tambah.vue'),
+        },
+        {
+            path: '/Admin/transaksi/penjualan',
+            component: () => import('../components/Admin/transaksiPenjualan.vue'),
+        },
+        {
+            path: '/Admin/transaksi/layanan',
+            component: () => import('../components/Admin/transaksiLayanan.vue'),
+        },
+        {
+            path: '/Admin/transaksi/Penjualan/keranjang',
+            component: () => import('../components/Admin/keranjangPenjualan.vue'),
+        },
+        {
+            path: '/Admin/transaksi/layanan/keranjang',
+            component: () => import('../components/Admin/keranjangLayanan.vue'),
+        },
         { 
-            path: '/dashboardAdmin/jenisLayanan',            
+            path: '/Admin/pengelolaan/jenisLayanan',            
             name: 'jenisLayananController', 
             component: loadAdminPage('jenisLayananController') 
         },
         { 
-            path: '/dashboardAdmin/rolePegawai',            
+            path: '/Admin/pengelolaan/rolePegawai',            
             name: 'rolePegawaiController', 
             component: loadAdminPage('rolePegawaiController') 
         },
         { 
-            path: '/dashboardAdmin/userWishList',            
-            name: 'userWishlistController', 
-            component: loadAdminPage('userWishlistController') 
-        },
-        { 
-            path: '/dashboardAdmin/userReview',            
-            name: 'userReviewController', 
-            component: loadAdminPage('userReviewController')
-        },
-        { 
-            path: '/dashboardAdmin/userJenisHewan',            
+            path: '/Admin/pengelolaan/jenisHewan',            
             name: 'jenisHewanController', 
             component: loadAdminPage('jenisHewanController')
         },
         { 
-            path: '/dashboardAdmin/userUkuranHewan',            
+            path: '/Admin/pengelolaan/ukuranHewan',            
             name: 'ukuranHewanController', 
             component: loadAdminPage('ukuranHewanController')
         },
         { 
-            path: '/dashboardAdmin/produk',            
+            path: '/Admin/pengelolaan/produk',            
             name: 'produkController', 
             component: loadAdminPage('produkController')
         },
         { 
-            path: '/dashboardAdmin/pegawai',            
+            path: '/Admin/pengelolaan/pegawai',            
             name: 'pegawaiController', 
             component: loadAdminPage('pegawaiController')
         },
         { 
-            path: '/dashboardAdmin/supplier',            
+            path: '/Admin/pengelolaan/supplier',            
             name: 'supplierController', 
             component: loadAdminPage('supplierController')
         },
         { 
-            path: '/dashboardAdmin/layanan',            
+            path: '/Admin/pengelolaan/layanan',            
             name: 'layananController', 
             component: loadAdminPage('layananController')
         },
         { 
-            path: '/dashboardAdmin/member',            
+            path: '/Admin/pengelolaan/member',            
             name: 'memberController', 
             component: loadAdminPage('memberController')
         },
         { 
-            path: '/dashboardAdmin/hewan',            
+            path: '/Admin/pengelolaan/hewan',            
             name: 'hewanController', 
             component: loadAdminPage('hewanController')
         },
-        { 
-            path: '/dashboardAdmin/pemesanan',            
-            name: 'pemesananController', 
-            component: loadAdminPage('pemesananController')
+        {
+            path: '/Admin/pembayaran',
+            component: () => import('../components/Admin/pembayaran.vue'),
         },
-        { 
-            path: '/dashboardAdmin/produkPemesanan',            
-            name: 'produkPemesananController', 
-            component: loadAdminPage('produkPemesananController')
+        {
+            path: '/Admin/pembayaran/produk',
+            component: () => import('../components/Admin/pembayaranProduk.vue'),
         },
-        { 
-            path: '/dashboardAdmin/listLayanan',            
-            name: 'listLayananController', 
-            component: loadAdminPage('listLayananController')
+        {
+            path: '/Admin/pembayaran/layanan',
+            component: () => import('../components/Admin/pembayaranLayanan.vue'),
         },
-        
-        { 
-            path: '/dashboardAdmin/transaksiLayanan',            
-            name: 'transaksiLayananController', 
-            component: loadAdminPage('transaksiLayananController')
+        {
+            path: '/Admin/pembayaran/bayar',
+            component: () => import('../components/Admin/bayar.vue'),
         },
-        { 
-            path: '/dashboardAdmin/adminKonfirmasiTransaksi',            
-            name: 'adminKonfirmasiTransaksi', 
-            component: loadAdminPage('adminKonfirmasiTransaksi')
+        {
+            path: '/Admin/pengadaan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/pengadaan.vue')
         },
-        { 
-            path: '/dashboardAdmin/adminTransaksiController',            
-            name: 'adminTransaksiController', 
-            component: loadAdminPage('adminTransaksiController')
+        {
+            path: '/Admin/pengadaan/tambah',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/pengadaan_tambah.vue')
         },
-        { 
-            path: '/dashboardAdmin/adminAllLayanan',            
-            name: 'adminAllLayanan', 
-            component: loadAdminPage('adminAllLayanan')
+        {
+            path: '/Admin/pengadaan/tambah/produk',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/pengadaan_produk.vue')
         },
-        { 
-            path: '/dashboardAdmin/adminAllProduk',            
-            name: 'adminAllProduk', 
-            component: loadAdminPage('adminAllProduk')
+        {
+            path: '/Admin/pengadaan/tambah/keranjang',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/pengadaan_keranjang.vue')
         },
-        { 
-            path: '/dashboardAdmin/adminKeranjangProduk',            
-            name: 'adminKeranjangProduk', 
-            component: loadAdminPage('adminKeranjangProduk')
+        {
+            path: '/Admin/log',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/menuLog.vue')
         },
-        { 
-            path: '/dashboardAdmin/adminKeranjangLayanan',            
-            name: 'adminKeranjangLayanan', 
-            component: loadAdminPage('adminKeranjangLayanan')
+        {
+            path: '/Admin/log/supplier',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logSupplier.vue')
         },
-        { 
-            path: '/dashboardAdmin/adminLayananPelaporanController',            
-            name: 'adminLayananPelaporanController', 
-            component: loadAdminPage('adminLayananPelaporanController')
+        {
+            path: '/Admin/log/hewan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logHewan.vue')
         },
-        { 
-            path: '/dashboardAdmin/adminProdukPelaporanController',            
-            name: 'adminProdukPelaporanController', 
-            component: loadAdminPage('adminProdukPelaporanController')
+        {
+            path: '/Admin/log/ukuranHewan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logUkuranHewan.vue')
         },
-        { 
-            path: '/dashboardAdmin/adminTestingLayanan',            
-            name: 'adminTestingLayanan', 
-            component: loadAdminPage('adminTestingLayanan')
+        {
+            path: '/Admin/log/jenisHewan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logJenisHewan.vue')
         },
-        { 
-            path: '/dashboardAdmin/adminPengelolaanTransaksi',            
-            name: 'adminPengelolaanTransaksi', 
-            component: loadAdminPage('adminPengelolaanTransaksi')
+        {
+            path: '/Admin/log/jenisLayanan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logJenisLayanan.vue')
         },
-    ] 
-},
-{
-    path: '/dashboardCs', 
-    component: DashboardCsLayout, 
-
-    children: [ 
-        { 
-            path: '/CS/ml',            
-            name: 'csMemberController', 
-            component: loadCsPage('csMemberController')
+        {
+            path: '/Admin/log/kategoriProduk',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logKategoriProduk.vue')
+        },
+        {
+            path: '/Admin/log/produk',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logProduk.vue')
+        },
+        {
+            path: '/Admin/log/layanan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logLayanan.vue')
+        },
+        {
+            path: '/Admin/log/rolePegawai',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logRolePegawai.vue')
+        },
+        {
+            path: '/Admin/log/pegawai',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logPegawai.vue')
+        },
+        {
+            path: '/Admin/log/transaksiLayanan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logTransaksiLayanan.vue')
+        },
+        {
+            path: '/Admin/log/transaksiProduk',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logTransaksiProduk.vue')
+        },
+        {
+            path: '/Admin/log/member',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/log/logMember.vue')
+        },
+        {
+            path: '/Admin/pelaporan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/pelaporan.vue')
+        },
+        {
+            path: '/Admin/pengelolaan/transaksiLayanan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/pengelolaanTransakasiLayanan.vue')
+        },
+        {
+            path: '/Admin/pengelolaan/transaksiPenjualan',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/pengelolaanTransakasiPenjualan.vue')
+        },
+        {
+            path: '/Admin/pengelolaan/kategoriProduk',
+            component: () => import( /* webpackChunkName: "dashboard" */ '../components/Admin/kategoriProduk.vue')
         }
+        
     ] 
 },
 {
-    path: '/dashboardKasir', 
+    path: '/dashboardCS',
+    component: DashboardCsLayout, 
+    children: [
+        {
+            path: '/CS',
+            component: () => import('../components/menuCS/menuCS.vue'),
+        },
+        {
+            path: '/CS/transaksi',
+            component: () => import('../components/menuCS/transaksi/transaksi.vue'),
+        },
+        {
+            path: '/CS/transaksi/tambah',
+            component: () => import('../components/menuCS/transaksi/transaksi_tambah.vue'),
+        },
+        {
+            path: '/CS/transaksi/produk',
+            component: () => import('../components/menuCS/transaksi/transaksiPenjualan.vue'),
+        },
+        {
+            path: '/CS/transaksi/layanan',
+            component: () => import('../components/menuCS/transaksi/transaksiLayanan.vue'),
+        },
+        {
+            path: '/CS/transaksi/produk/keranjang',
+            component: () => import('../components/menuCS/transaksi/keranjangPenjualan.vue'),
+        },
+        {
+            path: '/CS/transaksi/layanan/keranjang',
+            component: () => import('../components/menuCS/transaksi/keranjangLayanan.vue'),
+        },
+        { 
+            path: '/CS/member',            
+            name: 'csMemberController', 
+            component: () => import('../components/menuCS/csMember.vue'),
+        },
+    ]
+},
+{
+    path: '/dashboardCS',
     component: DashboardKasirLayout, 
-    children: [ 
-        { 
-            path: '/dashboardKasir/produk',            
-            name: 'kasirProdukController', 
-            component: loadKasirPage('kasirProdukController')
+    children: [
+        {
+            path: '/Cashier',
+            component: () => import('../components/menuKasir/transaksi.vue'),
         },
-        { 
-            path: '/dashboardKasir/jenisHewan',            
-            name: 'kasirJenisHewanController', 
-            component: loadKasirPage('kasirJenisHewanController')
+        {
+            path: '/Cashier/produk',
+            component: () => import('../components/menuKasir/pembayaranProduk.vue'),
         },
-        { 
-            path: '/dashboardKasir/layanan',            
-            name: 'kasirLayananController', 
-            component: loadKasirPage('kasirLayananController')
+        {
+            path: '/Cashier/layanan',
+            component: () => import('../components/menuKasir/pembayaranLayanan.vue'),
         },
-        { 
-            path: '/dashboardKasir/ukuranHewan',            
-            name: 'kasirUkuranHewanController', 
-            component: loadKasirPage('kasirUkuranHewanController')
+        {
+            path: '/Cashier/bayar',
+            component: () => import('../components/menuKasir/bayar.vue'),
         },
-        { 
-            path: '/dashboardKasir/supplier',            
-            name: 'kasirSupplierController', 
-            component: loadKasirPage('kasirSupplierController')
-        },
-        { 
-            path: '/dashboardKasir/kasirTransaksiController',            
-            name: 'kasirTransaksiController', 
-            component: loadKasirPage('kasirTransaksiController')
-        },
-        
-        { 
-            path: '/dashboardKasir/kasirLayananPelaporan',            
-            name: 'kasirLayananPelaporan', 
-            component: loadKasirPage('kasirLayananPelaporan')
-        },
-        
-        { 
-            path: '/dashboardKasir/kasirProdukPelaporan',            
-            name: 'kasirProdukPelaporan', 
-            component: loadKasirPage('kasirProdukPelaporan')
-        },
-       
-
-    ] 
-},  
+    ]
+}
 ]
 
 Vue.use(Router) 

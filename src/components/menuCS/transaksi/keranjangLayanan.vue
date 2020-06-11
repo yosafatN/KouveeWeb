@@ -17,12 +17,6 @@
                         </v-col>
                     </v-row>
                 </v-card>
-                <v-layout row wrap style="margin:10px">
-                    <v-flex xs6 class="text-right">
-                        <v-text-field v-model="keyword" append-icon="mdi-magnify" label="Cari" hide-details>
-                        </v-text-field>
-                    </v-flex>
-                </v-layout>
 
                 <v-row>
                     <v-col v-for="(item, index) in layanans" :key="index" cols="12" sm="6" md="4" lg="3">
@@ -55,7 +49,16 @@
 
         <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card>
-                <v-card-title>{{form.nama_layanan}}</v-card-title>
+                <v-card-title>
+                    <v-col cols="10">
+                        {{form.nama_layanan}}
+                    </v-col>
+                    <v-col cols="2">
+                         <v-btn color="blue" icon @click="dialog = false">
+                            <v-icon>mdi-close-circle-outline</v-icon>
+                        </v-btn> 
+                    </v-col>
+                </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
@@ -89,8 +92,8 @@
                     </v-container>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="dialog = false">Batal</v-btn>
-                        <v-btn color="blue darken-1" text @click="udahDetil()">Ubah</v-btn>
+                        <v-btn color="red darken-1" text @click="batal()">Batal</v-btn>
+                        <v-btn color="green" text @click="selesai()">Selesai</v-btn>
                     </v-card-actions>
                 </v-card-text>
             </v-card>
@@ -129,6 +132,7 @@ export default {
             },
             hewan : '',
             snackbar : false,
+            pegawai : '',
         }
     },
     methods: {
@@ -181,7 +185,7 @@ export default {
             this.request.append('tanggal_lahir', this.form.tanggal_lahir);
             this.request.append('id_transaksi', this.id_transaksi);
             this.request.append('jumlah', '1');
-            this.request.append('pegawai', 'Ajeng9999');
+            this.request.append('pegawai', this.pegawai);
             var uri = this.$apiUrl + '/DetilTransaksiLayanan/' + this.form.id_detil;
             this.$http.post(uri, this.request).then(response => {              
                 this.dialog = false;
@@ -209,7 +213,17 @@ export default {
                 this.resetForm();           
             })
         },
-
+        batal() {
+            this.request.append('updated_by', this.pegawai);
+            var uri = this.$apiUrl + '/DetilTransaksiLayanan/delete/'+this.form.id_detil;
+            this.$http.post(uri, this.request).then(response => {              
+                this.getLayanan();
+                this.dialog = false;
+            }).catch(error => {
+                console.log(error);
+                this.dialog = false;
+            })
+        },
         rupiah(harga) {
             var prefix = 'Rp. ';
             var separator = '';
@@ -258,6 +272,7 @@ export default {
         }
     },
     mounted() {
+        this.pegawai = this.$session.get("pegawai");
         this.id_transaksi = this.$session.get("id_transaksi");
         this.getLayanan();
     },
