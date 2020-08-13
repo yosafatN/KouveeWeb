@@ -12,7 +12,7 @@
     "core-js": "^3.6.5",
     "minimist": ">=1.2.3",
     "moment": "^2.26.0",
-    "serialize-javascript": "^3.0.0",
+    "serialize-javascript": "^3.1.0",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.0",
     "vue-moment": "^4.1.0",
